@@ -75,6 +75,12 @@
       const output = document.getElementById("output");
       const recordForm = document.getElementById("recordForm");
       const recordID = document.getElementById("recordIDcontainer");
+
+      function handleError(response) {
+        if (!response.ok) throw Error(response.statusText);
+        return response;
+      }
+
       // This function should fetch all of the data from the given endpoint.
       // From the 4 CRUD actions, this is the READ action, and uses the GET http method.
       // The main difference from fetchOne() will be the URL you request from; check
@@ -83,8 +89,12 @@
         fetch(url, {
           method: "GET",
         })
+          .then((res) => handleError(res))
           .then((response) => response.json())
-          .then((data) => (output.innerText = JSON.stringify(data)));
+          .then((data) => (output.innerText = JSON.stringify(data)))
+          .catch((err) => {
+            output.innerText = err;
+          });
       }
 
       // This function should fetch one entry from the given endpoint.
@@ -96,8 +106,12 @@
         fetch(`${url}/${id}`, {
           method: "GET",
         })
+          .then((res) => handleError(res))
           .then((response) => response.json())
-          .then((data) => (output.innerText = JSON.stringify(data)));
+          .then((data) => (output.innerText = JSON.stringify(data)))
+          .catch((err) => {
+            output.innerText = err;
+          });
       }
 
       // This function should use fetch to create one entry in the given endpoint.
@@ -122,9 +136,12 @@
             },
             body: JSON.stringify(body),
           })
+            .then((res) => handleError(res))
             .then((response) => response.json())
-            .then((data) => (output.innerText = JSON.stringify(data)));
-          recordForm.style.display = "none";
+            .then((data) => (output.innerText = JSON.stringify(data)))
+            .catch((err) => {
+              output.innerText = err;
+            });
         }
       }
 
@@ -152,8 +169,12 @@
           },
           body: JSON.stringify(body),
         })
+          .then((res) => handleError(res))
           .then((response) => response.json())
-          .then((data) => (output.innerText = JSON.stringify(data)));
+          .then((data) => (output.innerText = JSON.stringify(data)))
+          .catch((err) => {
+            output.innerText = err;
+          });
       }
 
       // This function should use fetch to delete one existing entry in the given endpoint.
@@ -166,8 +187,12 @@
         fetch(`${url}/${id}`, {
           method: "DELETE",
         })
+          .then((res) => handleError(res))
           .then((response) => response.json())
-          .then((data) => (output.innerText = JSON.stringify(data)));
+          .then((data) => (output.innerText = JSON.stringify(data)))
+          .catch((err) => {
+            output.innerText = err;
+          });
       }
 
       window.addEventListener("DOMContentLoaded", () => {
